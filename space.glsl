@@ -133,7 +133,7 @@ float snoise(vec2 v)
 
 float fbm(vec2 st, float l, float r)
 {
-	const int octaves = 5;
+	const int octaves = 8;
 	
 	float sum = 0.0;
 	float f = 0.5;
@@ -181,12 +181,12 @@ void main(void)
 	
 	vec3 star = starfield_fractal(st * 40.0, 1.4, 0.9);
 	
-	float n = fbm(st * 1.0, 2.0, 0.6);
+	float n = fbm(st * 1.0, 2.0, 0.7);
 	vec3 nebula = vec3(n) * 0.14;
 	star = star * (n * 0.7 + 1.2);
 	
-        float n2 = fbm((st + vec2(132.0, 112.0)) * 1.5, 2.3, 0.55);
+        float n2 = fbm((st + vec2(132.0, 112.0)) * 1.5, 2.3, 0.6);
 	vec3 nebula2 = mix(vec3(1, 0, 0), vec3(0.5, 1, 0.5), n2) * (n2 - 0.3) * 0.14;
 	
-	gl_FragColor = vec4(nebula + star + nebula2, 1.0);
+	gl_FragColor = vec4(nebula + clamp(star, 0.0, 1.0) + nebula2, 1.0);
 }
